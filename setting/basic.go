@@ -1,8 +1,8 @@
 package setting
 
 const (
-	username = "849304059@qq.com"
-	password = "tzw19971336"
+	username = ""
+	password = ""
 )
 
 func GetUserName() string {
