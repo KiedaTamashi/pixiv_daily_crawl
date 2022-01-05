@@ -36,7 +36,7 @@ func FetchPixivImage(ctx context.Context, id string, links []string) (*model.Pix
 //getPixivOriginalImage 根据origin image url下载某张图，以byte形式出现
 func getPixivOriginalImage(link string) (b []byte, err error) {
 	client := &http.Client{
-		Timeout: time.Minute * 5,
+		Timeout: time.Minute * 15,
 	}
 
 	req, err := http.NewRequest("GET", link, nil)

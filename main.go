@@ -14,10 +14,18 @@ func main() {
 	// 并且 User-Agent 使用 `PIXIV_USER_AGENT` 或库内置的默认值。
 	//artIds := make(chan string)
 	// 使用 PHPSESSID Cookie 登录 (推荐)。
+	var year, month, day int
+	fmt.Println("输入年（num）：")
+	fmt.Scanln(&year)
+	fmt.Println("输入月（num）：")
+	fmt.Scanln(&month)
+	fmt.Println("输入日（num）：")
+	fmt.Scanln(&day)
+
 	c := &client.Client{}
 	c.SetDefaultHeader("User-Agent", client.DefaultUserAgent)
 	c.SetPHPSESSID(setting.GetCookie())
-	c.Timeout = time.Hour * 4
+	c.Timeout = time.Hour * 5
 	// 启用免代理，环境变量 `PIXIV_BYPASS_SNI_BLOCKING` 不为空时自动为默认客户端启用免代理。
 	// 当前实现需求一个 DNS over HTTPS 服务，默认使用 cloudflare，可通过 `PIXIV_DNS_QUERY_URL` 环境变量设置。
 	// 必须在其他客户端选项前调用 `BypassSNIBlocking`，因为对于封锁的域名它会使用一个更改过的 Transport 进行请求，无视在它之前进行的的设置。
@@ -28,13 +36,8 @@ func main() {
 	ctx, cancelFunc := context.WithTimeout(context.Background(), time.Hour*1)
 	defer cancelFunc()
 	ctx = client.With(ctx, c)
-
-	var month, day int
-	fmt.Println("输入月（num）：")
-	fmt.Scanln(&month)
-	fmt.Println("输入日（num）：")
-	fmt.Scanln(&day)
-	pixiv.TopRankCrawlerYearly(ctx, month, day)
+	print("start crawler...")
+	pixiv.TopRankCrawlerYearly(ctx, year, month, day)
 
 	//// Instantiate default collector
 	//c := colly.NewCollector(

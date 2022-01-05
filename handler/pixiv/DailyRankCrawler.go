@@ -96,7 +96,7 @@ func DownloadOneImageFromOneId(id string, lastId string, f *os.File) {
 	return
 }
 
-func TopRankCrawlerYearly(ctx context.Context, month int, day int) {
+func TopRankCrawlerYearly(ctx context.Context, year, month, day int) {
 	var lastArtId string   //日榜可能蝉联
 	var lastArtName string //日榜可能蝉联
 	var err error
@@ -118,7 +118,7 @@ func TopRankCrawlerYearly(ctx context.Context, month int, day int) {
 			rank := &artwork.Rank{
 				Mode:    "daily",
 				Content: "illust",
-				Date: time.Date(2021, time.Month(month), day, 18, 0,
+				Date: time.Date(year, time.Month(month), day, 18, 0,
 					0, 0, time.Local),
 			}
 			_ = rank.Fetch(ctx)
@@ -132,7 +132,9 @@ func TopRankCrawlerYearly(ctx context.Context, month int, day int) {
 			}
 			lastArtId = thisID
 			lastArtName = thisName
+			time.Sleep(time.Second * 2)
 		}
+		day = 1
 	}
 }
 
