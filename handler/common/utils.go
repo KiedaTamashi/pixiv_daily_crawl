@@ -23,7 +23,7 @@ func ServeFrames(imgByte []byte, name string) {
 
 	if name[len(name)-4:] == ".jpg" {
 		var opts jpeg.Options
-		opts.Quality = 9
+		opts.Quality = 100
 
 		err = jpeg.Encode(out, img, &opts)
 	} else if name[len(name)-4:] == ".png" {
